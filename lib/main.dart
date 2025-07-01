@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:halaqat_wasl_manager_app/shared/set_up.dart';
-import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_theme.dart';
+import 'package:halaqat_wasl_manager_app/ui/home/home_screen.dart';
 
 void main() async {
 
@@ -23,11 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello there,' ,style: AppTextStyle.sfPro60048),
-        ),
-      ),
+      home: HomeScreen(),
     );
   }
 }
