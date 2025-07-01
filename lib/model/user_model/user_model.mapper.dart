@@ -20,8 +20,8 @@ class UserModelMapper extends ClassMapperBase<UserModel> {
   @override
   final String id = 'UserModel';
 
-  static int _$userId(UserModel v) => v.userId;
-  static const Field<UserModel, int> _f$userId =
+  static String _$userId(UserModel v) => v.userId;
+  static const Field<UserModel, String> _f$userId =
       Field('userId', _$userId, key: r'user_id');
   static String _$notificationId(UserModel v) => v.notificationId;
   static const Field<UserModel, String> _f$notificationId =
@@ -113,7 +113,7 @@ extension UserModelValueCopy<$R, $Out> on ObjectCopyWith<$R, UserModel, $Out> {
 abstract class UserModelCopyWith<$R, $In extends UserModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call(
-      {int? userId,
+      {String? userId,
       String? notificationId,
       String? role,
       String? fullName,
@@ -133,7 +133,7 @@ class _UserModelCopyWithImpl<$R, $Out>
       UserModelMapper.ensureInitialized();
   @override
   $R call(
-          {int? userId,
+          {String? userId,
           String? notificationId,
           String? role,
           String? fullName,
