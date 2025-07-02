@@ -11,7 +11,6 @@ import 'package:halaqat_wasl_manager_app/ui/auth/sign_up_screen.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/home_screen.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations([

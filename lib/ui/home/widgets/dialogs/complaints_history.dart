@@ -6,7 +6,7 @@ import 'package:halaqat_wasl_manager_app/shared/widgets/gap.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/complaint_bloc/complaint_bloc.dart';
-import 'package:halaqat_wasl_manager_app/ui/home/widgets/date_range_chip.dart';
+import 'package:halaqat_wasl_manager_app/ui/home/widgets/dialogs/date_range_chip.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/widgets/history_chip.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/widgets/shared/search_textfield.dart';
 

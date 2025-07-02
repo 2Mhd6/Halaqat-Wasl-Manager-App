@@ -7,6 +7,7 @@ class AppColors {
   static const responseButtonColor = Color(0xffDC2625);
   static const primaryAppColor = Color(0xff4A6CF7);
   static const secondaryColor = Color.fromRGBO(176, 183, 195, 0.59);
+  static const ternaryColor = Color(0xff0031F8);
 
   // -- Buttons Colors
   static const primaryButtonColor = Color(0xff4A6CF7);

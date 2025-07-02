@@ -6,7 +6,9 @@ import 'package:halaqat_wasl_manager_app/shared/widgets/gap.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/complaint_bloc/complaint_bloc.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/widgets/complaint_chip.dart';
-import 'package:halaqat_wasl_manager_app/ui/home/widgets/complaints_history.dart';
+import 'package:halaqat_wasl_manager_app/ui/home/widgets/dialogs/complaint_details_dialog.dart.dart';
+import 'package:halaqat_wasl_manager_app/ui/home/widgets/dialogs/complaints_history.dart';
+import 'package:halaqat_wasl_manager_app/ui/home/widgets/dialogs/request_details_dialog.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/widgets/driver_chip.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/widgets/main_section.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/widgets/request_chip.dart';
@@ -20,7 +22,7 @@ class HomeScreen extends StatelessWidget {
     
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ComplaintBloc())
+        BlocProvider(create: (context) => ComplaintBloc()..add(GettingDataBasedOnDate()))
       ],
       child: Builder(
         builder: (context) {
@@ -57,13 +59,17 @@ class HomeScreen extends StatelessWidget {
                         children: [
           
                           MainSection(
-                            headerLabel: 'home_screen.drivers', 
+                            headerLabel: 'home_screen.requests', 
                             viewAllLabel: 'home_screen.view_all', 
                             onPressedViewAll: (){}, 
                             emptyWidget: Center(child: Text('Wow I think it\'s  empty for now'),),
                             children: [
                               Gap.gapH16,
-                              RequestChip(onPressed: (){}),
+                              RequestChip(onPressed: (){
+                                showDialog(context: context, builder: (context){
+                                  return RequestDetailsDialog();
+                                });
+                              }),
                               RequestChip(onPressed: () {}),
                               RequestChip(onPressed: () {}),
                               RequestChip(onPressed: () {}),
@@ -112,7 +118,11 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Column(
                                 children: [
-                                  ComplaintChip(onPressed: (){})
+                                  ComplaintChip(onPressed: (){
+                                    showDialog(context: context, builder: (context){
+                                      return ComplaintDetailsDialog();
+                                    });
+                                  })
                                 ],
                               )
                             ],
