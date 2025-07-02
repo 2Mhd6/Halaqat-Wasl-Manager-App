@@ -16,17 +16,25 @@ class RequestHistoryScreen extends StatelessWidget {
             builder: (context, state) {
               return BaseHistoryScreen(
                 title: 'Request History',
-                selectedIndex:   state.selectedIndex ,
-                requests: 
-                  state is RequestHistoryDataState ? state.requests : [],
-                
+
+              // The currently selected day 
+                selectedIndex: state.selectedIndex,
+              // If the state contains the requests data, pass the list
+              // Otherwise, pass an empty list
+                requests: state is RequestHistoryDataState
+                    ? state.requests
+                    : [],
+
+              // Show loading indicator if state is loading
                 isLoading: state is RequestHistoryLoadingState,
-                onDaySelected: (index) => 
-                  context.read<RequestHistoryBloc>().add(RequestHistoryLoadEvent(selectedIndex: index)),
+              // On day selection, trigger load event with selected index
+                onDaySelected: (index) => context
+                    .read<RequestHistoryBloc>()
+                    .add(RequestHistoryLoadEvent(selectedIndex: index)),
               );
             },
           );
-        }
+        },
       ),
     );
   }
