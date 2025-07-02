@@ -11,6 +11,7 @@ class ComplaintModel with ComplaintModelMappable {
     required this.complaintId,
     required this.userId,
     required this.charityId,
+    required this.requestId,
     required this.driverId,
     required this.hospitalId,
     required this.complaint,
@@ -21,17 +22,20 @@ class ComplaintModel with ComplaintModelMappable {
   @MappableField(key: 'complaint_id')
   final String complaintId;
 
+  @MappableField(key: 'request_id')
+  final String? requestId;
+
   @MappableField(key: 'user_id')
-  final String userId;
+  final String? userId;
 
   @MappableField(key: 'charity_id')
-  final String charityId;
+  final String? charityId;
 
   @MappableField(key: 'driver_id')
-  final String driverId;
+  final String? driverId;
 
   @MappableField(key: 'hospital_id')
-  final String hospitalId;
+  final String? hospitalId;
   
   final String complaint;
 

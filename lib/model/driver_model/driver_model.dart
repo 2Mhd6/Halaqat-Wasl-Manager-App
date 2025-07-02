@@ -6,9 +6,8 @@ import 'package:dart_mappable/dart_mappable.dart';
 part 'driver_model.mapper.dart';
 
 @MappableClass()
-class DriverNotification with DriverNotificationMappable {
-  
-  DriverNotification({
+class DriverModel with DriverModelMappable {
+  DriverModel({
     required this.driverId,
     required this.charityId,
     required this.notificationId,
@@ -17,7 +16,7 @@ class DriverNotification with DriverNotificationMappable {
     required this.status,
     required this.totalServices,
   });
-  
+
   @MappableField(key: 'driver_id')
   final String driverId;
 
@@ -25,7 +24,7 @@ class DriverNotification with DriverNotificationMappable {
   final String charityId;
 
   @MappableField(key: 'notification_id')
-  final String notificationId;
+  final String? notificationId;
 
   @MappableField(key: 'full_name')
   final String fullName;
@@ -36,5 +35,4 @@ class DriverNotification with DriverNotificationMappable {
 
   @MappableField(key: 'total_services')
   final int totalServices;
-
 }

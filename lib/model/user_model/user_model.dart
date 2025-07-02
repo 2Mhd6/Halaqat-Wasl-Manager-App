@@ -18,7 +18,7 @@ class UserModel with UserModelMappable {
   final int userId;
 
   @MappableField(key: 'notification_id')
-  final String notificationId;
+  final String? notificationId;
 
   @MappableField(key: 'full_name')
   final String fullName;

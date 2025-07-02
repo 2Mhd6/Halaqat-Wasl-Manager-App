@@ -23,16 +23,19 @@ class ComplaintModelMapper extends ClassMapperBase<ComplaintModel> {
   static String _$complaintId(ComplaintModel v) => v.complaintId;
   static const Field<ComplaintModel, String> _f$complaintId =
       Field('complaintId', _$complaintId, key: r'complaint_id');
-  static String _$userId(ComplaintModel v) => v.userId;
+  static String? _$userId(ComplaintModel v) => v.userId;
   static const Field<ComplaintModel, String> _f$userId =
       Field('userId', _$userId, key: r'user_id');
-  static String _$charityId(ComplaintModel v) => v.charityId;
+  static String? _$charityId(ComplaintModel v) => v.charityId;
   static const Field<ComplaintModel, String> _f$charityId =
       Field('charityId', _$charityId, key: r'charity_id');
-  static String _$driverId(ComplaintModel v) => v.driverId;
+  static String? _$requestId(ComplaintModel v) => v.requestId;
+  static const Field<ComplaintModel, String> _f$requestId =
+      Field('requestId', _$requestId, key: r'request_id');
+  static String? _$driverId(ComplaintModel v) => v.driverId;
   static const Field<ComplaintModel, String> _f$driverId =
       Field('driverId', _$driverId, key: r'driver_id');
-  static String _$hospitalId(ComplaintModel v) => v.hospitalId;
+  static String? _$hospitalId(ComplaintModel v) => v.hospitalId;
   static const Field<ComplaintModel, String> _f$hospitalId =
       Field('hospitalId', _$hospitalId, key: r'hospital_id');
   static String _$complaint(ComplaintModel v) => v.complaint;
@@ -50,6 +53,7 @@ class ComplaintModelMapper extends ClassMapperBase<ComplaintModel> {
     #complaintId: _f$complaintId,
     #userId: _f$userId,
     #charityId: _f$charityId,
+    #requestId: _f$requestId,
     #driverId: _f$driverId,
     #hospitalId: _f$hospitalId,
     #complaint: _f$complaint,
@@ -62,6 +66,7 @@ class ComplaintModelMapper extends ClassMapperBase<ComplaintModel> {
         complaintId: data.dec(_f$complaintId),
         userId: data.dec(_f$userId),
         charityId: data.dec(_f$charityId),
+        requestId: data.dec(_f$requestId),
         driverId: data.dec(_f$driverId),
         hospitalId: data.dec(_f$hospitalId),
         complaint: data.dec(_f$complaint),
@@ -127,6 +132,7 @@ abstract class ComplaintModelCopyWith<$R, $In extends ComplaintModel, $Out>
       {String? complaintId,
       String? userId,
       String? charityId,
+      String? requestId,
       String? driverId,
       String? hospitalId,
       String? complaint,
@@ -147,19 +153,21 @@ class _ComplaintModelCopyWithImpl<$R, $Out>
   @override
   $R call(
           {String? complaintId,
-          String? userId,
-          String? charityId,
-          String? driverId,
-          String? hospitalId,
+          Object? userId = $none,
+          Object? charityId = $none,
+          Object? requestId = $none,
+          Object? driverId = $none,
+          Object? hospitalId = $none,
           String? complaint,
           String? response,
           bool? isActive}) =>
       $apply(FieldCopyWithData({
         if (complaintId != null) #complaintId: complaintId,
-        if (userId != null) #userId: userId,
-        if (charityId != null) #charityId: charityId,
-        if (driverId != null) #driverId: driverId,
-        if (hospitalId != null) #hospitalId: hospitalId,
+        if (userId != $none) #userId: userId,
+        if (charityId != $none) #charityId: charityId,
+        if (requestId != $none) #requestId: requestId,
+        if (driverId != $none) #driverId: driverId,
+        if (hospitalId != $none) #hospitalId: hospitalId,
         if (complaint != null) #complaint: complaint,
         if (response != null) #response: response,
         if (isActive != null) #isActive: isActive
@@ -169,6 +177,7 @@ class _ComplaintModelCopyWithImpl<$R, $Out>
       complaintId: data.get(#complaintId, or: $value.complaintId),
       userId: data.get(#userId, or: $value.userId),
       charityId: data.get(#charityId, or: $value.charityId),
+      requestId: data.get(#requestId, or: $value.requestId),
       driverId: data.get(#driverId, or: $value.driverId),
       hospitalId: data.get(#hospitalId, or: $value.hospitalId),
       complaint: data.get(#complaint, or: $value.complaint),

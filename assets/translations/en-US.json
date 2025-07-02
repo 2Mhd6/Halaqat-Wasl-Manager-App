@@ -5,11 +5,24 @@
         "password": "Password",
         "forget_password": "Forget password?",
         "contact_us": "Contact us",
-        "login_text": "Every ride you provide is a step toward healing and hope.",
-        "login": "Login"
+        "onboarding_text": "Every ride you provide is a step toward healing and hope.",
+        "login": "Log in",
+        "already_have_an_account": "Do you have an account already? "
+    },
+
+    "sign_up_screen": {
+        "sign_up_title": "Sign up",
+        "email": "Email",
+        "password": "Password",
+        "phone_number": "Phone Number",
+        "charity_number": "Charity Number",
+        "confirmation_message":"To confirm your account you need to contact us with this email {}",
+        "onboarding_text": "Every ride you provide is a step toward healing and hope.",
+        "don’t_have_an_account": "Don’t have an account? ",
+        "sign_up": "Sign Up"
     },
     "home_screen": {
-        "Welcome": "Welcome",
+        "welcome": "Welcome {}",
         "admin_name": "admin_name",
         "total_services": "Total services",
         "forget_password": "Forget password?",
@@ -19,9 +32,14 @@
         "drivers": "Drivers",
         "complaints": "Complaints",
         "view_all": "View All",
+        "pending": "Pending",
+        "completed": "Completed",
+        "canceled": "Canceled",
+        "on_trip" : "On Trip",
+        "response": "Response",
         "assign_driver": "Assign Driver",
         "add_driver": "Add Driver",
-        "response_driver": "Response Driver",
+        "response_complaint": "Response Complaint",
         "req_status": "Request Status"
     },
     "add_driver_dialog_home_screen": {
@@ -73,7 +91,7 @@
         "Accept_Request": "Accept Request",
         "OK": "OK"
     },
-    "complaint_history_dialog_home_screen": {
+    "complaint_history_dialog": {
         "complaint_history": "Complaint History",
         "complaint_status": "complaint_status",
         "search_number_request": "Request Number...",

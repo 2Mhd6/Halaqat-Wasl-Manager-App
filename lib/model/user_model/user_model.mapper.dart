@@ -23,7 +23,7 @@ class UserModelMapper extends ClassMapperBase<UserModel> {
   static int _$userId(UserModel v) => v.userId;
   static const Field<UserModel, int> _f$userId =
       Field('userId', _$userId, key: r'user_id');
-  static String _$notificationId(UserModel v) => v.notificationId;
+  static String? _$notificationId(UserModel v) => v.notificationId;
   static const Field<UserModel, String> _f$notificationId =
       Field('notificationId', _$notificationId, key: r'notification_id');
   static String _$role(UserModel v) => v.role;
@@ -134,7 +134,7 @@ class _UserModelCopyWithImpl<$R, $Out>
   @override
   $R call(
           {int? userId,
-          String? notificationId,
+          Object? notificationId = $none,
           String? role,
           String? fullName,
           String? email,
@@ -142,7 +142,7 @@ class _UserModelCopyWithImpl<$R, $Out>
           String? gender}) =>
       $apply(FieldCopyWithData({
         if (userId != null) #userId: userId,
-        if (notificationId != null) #notificationId: notificationId,
+        if (notificationId != $none) #notificationId: notificationId,
         if (role != null) #role: role,
         if (fullName != null) #fullName: fullName,
         if (email != null) #email: email,

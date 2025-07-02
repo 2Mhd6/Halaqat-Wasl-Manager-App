@@ -7,18 +7,18 @@ class HospitalModel with HospitalModelMappable {
   HospitalModel({
     required this.hospitalId,
     required this.name,
-    required this.charityLat,
-    required this.charityLong,
+    required this.hospitalLat,
+    required this.hospitalLong,
   });
 
   @MappableField(key: 'hospital_id')
-  final int hospitalId;
+  final String hospitalId;
 
   final String name;
 
-  @MappableField(key: 'charity_lat')
-  final double charityLat;
+  @MappableField(key: 'hospital_lat')
+  final double hospitalLat;
 
-  @MappableField(key: 'charity_long')
-  final double charityLong;
+  @MappableField(key: 'hospital_long')
+  final double hospitalLong;
 }
