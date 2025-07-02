@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:halaqat_wasl_manager_app/model/complaint_model/complaint_model.dart';
+import 'package:halaqat_wasl_manager_app/repo/complaints/complaints_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'complaint_history_event.dart';
@@ -6,7 +8,11 @@ part 'complaint_history_state.dart';
 
 class ComplaintHistoryBloc
     extends Bloc<ComplaintHistoryEvent, ComplaintHistoryState> {
-  ComplaintHistoryBloc() : super(ComplaintHistoryInitial()) {
+  final ComplaintsRepository _complaintsRepository;
+
+  ComplaintHistoryBloc({required ComplaintsRepository complaintsRepository})
+    : _complaintsRepository = complaintsRepository,
+      super(ComplaintHistoryInitial()) {
     on<ComplaintHistoryLoadEvent>(_complaintHistoryLoadEvent);
   }
 
@@ -15,16 +21,15 @@ class ComplaintHistoryBloc
     Emitter<ComplaintHistoryState> emit,
   ) async {
     emit(ComplaintHistoryLoadingState(selectedIndex: event.selectedIndex));
-    // Simulate a delay for loading data
-    await Future.delayed(Duration(milliseconds: 300), () {
-      
-    // After loading, emit the data state with "dummy data"
-      emit(
+   
+   final complaints = await _complaintsRepository.fetchComplaints();
+   print('Fetched complaints: $complaints');
+
+    // Emit the data state with the fetched complaints
+  emit(
         ComplaintHistoryDataState(
-          complaints: List.generate(20, (index) => 'Complaint ${index + 1}'),
+          complaints: complaints,
           selectedIndex: event.selectedIndex,
         ),
-      );
-    });
-  }
+      ); }
 }

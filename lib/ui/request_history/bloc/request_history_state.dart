@@ -21,10 +21,10 @@ final class RequestHistoryLoadingState extends RequestHistoryState {
 
 // Data loaded "successfully state"
 final class RequestHistoryDataState extends RequestHistoryState {
-  final List<String> requests;
+  final List<RequestModel> requests;
 
   RequestHistoryDataState({
-    this.requests = const ['', '', '', '', '', '', '', '', '', '',  '', '', '', '', '', '', '', '', ''],
+    this.requests = const [],
     super.selectedIndex = 0,
   });
 }

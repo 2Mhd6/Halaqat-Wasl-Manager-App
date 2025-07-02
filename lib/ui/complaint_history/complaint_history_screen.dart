@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:halaqat_wasl_manager_app/repo/complaints/complaints_repository.dart';
 import 'package:halaqat_wasl_manager_app/shared/widgets/base_history_screen.dart';
 import 'package:halaqat_wasl_manager_app/ui/complaint_history/bloc/complaint_history_bloc.dart';
 
@@ -9,7 +10,9 @@ class ComplaintHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ComplaintHistoryBloc()..add(ComplaintHistoryLoadEvent()),
+      create: (context) => ComplaintHistoryBloc(
+        complaintsRepository: context.read<ComplaintsRepository>(),
+      )..add(ComplaintHistoryLoadEvent()),
       child: Builder(
         builder: (context) {
           return BlocBuilder<ComplaintHistoryBloc, ComplaintHistoryState>(
@@ -30,6 +33,16 @@ class ComplaintHistoryScreen extends StatelessWidget {
                 onDaySelected: (index) => context
                     .read<ComplaintHistoryBloc>()
                     .add(ComplaintHistoryLoadEvent(selectedIndex: index)),
+                itemBuilder: (BuildContext context, int index) {
+                  final complaint =
+                      (state as ComplaintHistoryDataState).complaints[index];
+                  return HistoryItem(
+                    title: complaint.complaintId,
+                    state: complaint.isActive,
+                    date: complaint.complaint,
+                    hospital: complaint.hospitalId,
+                  );
+                },
               );
             },
           );

@@ -13,6 +13,7 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
   static RequestModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = RequestModelMapper._());
+      HospitalModelMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -20,38 +21,50 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
   @override
   final String id = 'RequestModel';
 
-  static int _$requestId(RequestModel v) => v.requestId;
-  static const Field<RequestModel, int> _f$requestId =
+  static String _$requestId(RequestModel v) => v.requestId;
+  static const Field<RequestModel, String> _f$requestId =
       Field('requestId', _$requestId, key: r'request_id');
-  static int _$userId(RequestModel v) => v.userId;
-  static const Field<RequestModel, int> _f$userId =
+  static String _$userId(RequestModel v) => v.userId;
+  static const Field<RequestModel, String> _f$userId =
       Field('userId', _$userId, key: r'user_id');
-  static int _$charityId(RequestModel v) => v.charityId;
-  static const Field<RequestModel, int> _f$charityId =
-      Field('charityId', _$charityId, key: r'charity_id');
-  static int _$hospitalId(RequestModel v) => v.hospitalId;
-  static const Field<RequestModel, int> _f$hospitalId =
-      Field('hospitalId', _$hospitalId, key: r'hospital_id');
-  static int _$complaintId(RequestModel v) => v.complaintId;
-  static const Field<RequestModel, int> _f$complaintId =
-      Field('complaintId', _$complaintId, key: r'complaint_id');
-  static int _$driverId(RequestModel v) => v.driverId;
-  static const Field<RequestModel, int> _f$driverId =
-      Field('driverId', _$driverId, key: r'driver_id');
+  static String _$charityId(RequestModel v) => v.charityId;
+  static const Field<RequestModel, String> _f$charityId =
+      Field('charityId', _$charityId, key: r'charity_id', opt: true, def: '');
+  static String _$hospitalId(RequestModel v) => v.hospitalId;
+  static const Field<RequestModel, String> _f$hospitalId = Field(
+      'hospitalId', _$hospitalId,
+      key: r'hospital_id', opt: true, def: '');
+  static String _$complaintId(RequestModel v) => v.complaintId;
+  static const Field<RequestModel, String> _f$complaintId = Field(
+      'complaintId', _$complaintId,
+      key: r'complaint_id', opt: true, def: '');
+  static String _$driverId(RequestModel v) => v.driverId;
+  static const Field<RequestModel, String> _f$driverId =
+      Field('driverId', _$driverId, key: r'driver_id', opt: true, def: '');
   static double _$pickupLat(RequestModel v) => v.pickupLat;
   static const Field<RequestModel, double> _f$pickupLat =
-      Field('pickupLat', _$pickupLat, key: r'pick_up_lat');
+      Field('pickupLat', _$pickupLat, key: r'pick_up_lat', opt: true, def: 0.0);
   static double _$pickupLong(RequestModel v) => v.pickupLong;
-  static const Field<RequestModel, double> _f$pickupLong =
-      Field('pickupLong', _$pickupLong, key: r'pick_up_long');
+  static const Field<RequestModel, double> _f$pickupLong = Field(
+      'pickupLong', _$pickupLong,
+      key: r'pick_up_long', opt: true, def: 0.0);
   static double _$destinationLat(RequestModel v) => v.destinationLat;
-  static const Field<RequestModel, double> _f$destinationLat =
-      Field('destinationLat', _$destinationLat, key: r'destination_lat');
+  static const Field<RequestModel, double> _f$destinationLat = Field(
+      'destinationLat', _$destinationLat,
+      key: r'destination_lat', opt: true, def: 0.0);
   static double _$destinationLong(RequestModel v) => v.destinationLong;
-  static const Field<RequestModel, double> _f$destinationLong =
-      Field('destinationLong', _$destinationLong, key: r'destination_long');
-  static String _$state(RequestModel v) => v.state;
-  static const Field<RequestModel, String> _f$state = Field('state', _$state);
+  static const Field<RequestModel, double> _f$destinationLong = Field(
+      'destinationLong', _$destinationLong,
+      key: r'destination_long', opt: true, def: 0.0);
+  static String _$status(RequestModel v) => v.status;
+  static const Field<RequestModel, String> _f$status =
+      Field('status', _$status, opt: true, def: '');
+  static String _$date(RequestModel v) => v.date;
+  static const Field<RequestModel, String> _f$date =
+      Field('date', _$date, key: r'request_date', opt: true, def: '');
+  static HospitalModel? _$hospital(RequestModel v) => v.hospital;
+  static const Field<RequestModel, HospitalModel> _f$hospital =
+      Field('hospital', _$hospital, opt: true);
   static String? _$note(RequestModel v) => v.note;
   static const Field<RequestModel, String> _f$note =
       Field('note', _$note, opt: true);
@@ -68,7 +81,9 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
     #pickupLong: _f$pickupLong,
     #destinationLat: _f$destinationLat,
     #destinationLong: _f$destinationLong,
-    #state: _f$state,
+    #status: _f$status,
+    #date: _f$date,
+    #hospital: _f$hospital,
     #note: _f$note,
   };
 
@@ -84,7 +99,9 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
         pickupLong: data.dec(_f$pickupLong),
         destinationLat: data.dec(_f$destinationLat),
         destinationLong: data.dec(_f$destinationLong),
-        state: data.dec(_f$state),
+        status: data.dec(_f$status),
+        date: data.dec(_f$date),
+        hospital: data.dec(_f$hospital),
         note: data.dec(_f$note));
   }
 
@@ -141,18 +158,21 @@ extension RequestModelValueCopy<$R, $Out>
 
 abstract class RequestModelCopyWith<$R, $In extends RequestModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  HospitalModelCopyWith<$R, HospitalModel, HospitalModel>? get hospital;
   $R call(
-      {int? requestId,
-      int? userId,
-      int? charityId,
-      int? hospitalId,
-      int? complaintId,
-      int? driverId,
+      {String? requestId,
+      String? userId,
+      String? charityId,
+      String? hospitalId,
+      String? complaintId,
+      String? driverId,
       double? pickupLat,
       double? pickupLong,
       double? destinationLat,
       double? destinationLong,
-      String? state,
+      String? status,
+      String? date,
+      HospitalModel? hospital,
       String? note});
   RequestModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -166,18 +186,23 @@ class _RequestModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<RequestModel> $mapper =
       RequestModelMapper.ensureInitialized();
   @override
+  HospitalModelCopyWith<$R, HospitalModel, HospitalModel>? get hospital =>
+      $value.hospital?.copyWith.$chain((v) => call(hospital: v));
+  @override
   $R call(
-          {int? requestId,
-          int? userId,
-          int? charityId,
-          int? hospitalId,
-          int? complaintId,
-          int? driverId,
+          {String? requestId,
+          String? userId,
+          String? charityId,
+          String? hospitalId,
+          String? complaintId,
+          String? driverId,
           double? pickupLat,
           double? pickupLong,
           double? destinationLat,
           double? destinationLong,
-          String? state,
+          String? status,
+          String? date,
+          Object? hospital = $none,
           Object? note = $none}) =>
       $apply(FieldCopyWithData({
         if (requestId != null) #requestId: requestId,
@@ -190,7 +215,9 @@ class _RequestModelCopyWithImpl<$R, $Out>
         if (pickupLong != null) #pickupLong: pickupLong,
         if (destinationLat != null) #destinationLat: destinationLat,
         if (destinationLong != null) #destinationLong: destinationLong,
-        if (state != null) #state: state,
+        if (status != null) #status: status,
+        if (date != null) #date: date,
+        if (hospital != $none) #hospital: hospital,
         if (note != $none) #note: note
       }));
   @override
@@ -205,7 +232,9 @@ class _RequestModelCopyWithImpl<$R, $Out>
       pickupLong: data.get(#pickupLong, or: $value.pickupLong),
       destinationLat: data.get(#destinationLat, or: $value.destinationLat),
       destinationLong: data.get(#destinationLong, or: $value.destinationLong),
-      state: data.get(#state, or: $value.state),
+      status: data.get(#status, or: $value.status),
+      date: data.get(#date, or: $value.date),
+      hospital: data.get(#hospital, or: $value.hospital),
       note: data.get(#note, or: $value.note));
 
   @override

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:halaqat_wasl_manager_app/repo/complaints/complaints_repository.dart';
+import 'package:halaqat_wasl_manager_app/repo/requests/requests_repository.dart';
 import 'package:halaqat_wasl_manager_app/shared/set_up.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_theme.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/home_screen.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await dotenv.load(fileName: '.env');
 
   await SetupSupabase.setUpSupabase();
@@ -20,10 +22,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.theme,
-      home: HomeScreen(),
+    return MultiBlocProvider(
+      providers: [
+        RepositoryProvider<ComplaintsRepository>(
+          create: (_) => ComplaintsRepositoryImpl(),
+        ),
+        RepositoryProvider<RequestsRepository>(
+          create: (_) => RequestsRepositoryImpl(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.theme,
+        home: HomeScreen(),
+      ),
     );
   }
 }

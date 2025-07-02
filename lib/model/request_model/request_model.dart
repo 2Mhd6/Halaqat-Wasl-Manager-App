@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:halaqat_wasl_manager_app/model/hospital_model/hospital_model.dart';
 
 part 'request_model.mapper.dart';
 
@@ -7,35 +8,37 @@ class RequestModel with RequestModelMappable {
   RequestModel({
     required this.requestId,
     required this.userId,
-    required this.charityId,
-    required this.hospitalId,
-    required this.complaintId,
-    required this.driverId,
-    required this.pickupLat,
-    required this.pickupLong,
-    required this.destinationLat,
-    required this.destinationLong,
-    required this.state,
+    this.charityId = '',
+    this.hospitalId = '',
+    this.complaintId = '',
+    this.driverId = '',
+    this.pickupLat = 0.0,
+    this.pickupLong = 0.0,
+    this.destinationLat = 0.0,
+    this.destinationLong = 0.0,
+    this.status = '',
+    this.date = '',
+    this.hospital,
     this.note,
   });
 
   @MappableField(key: 'request_id')
-  final int requestId;
+  final String requestId;
 
   @MappableField(key: 'user_id')
-  final int userId;
+  final String userId;
 
   @MappableField(key: 'charity_id')
-  final int charityId;
+  final String charityId;
 
   @MappableField(key: 'hospital_id')
-  final int hospitalId;
+  final String hospitalId;
 
   @MappableField(key: 'complaint_id')
-  final int complaintId;
+  final String complaintId;
 
   @MappableField(key: 'driver_id')
-  final int driverId;
+  final String driverId;
 
   @MappableField(key: 'pick_up_lat')
   final double pickupLat;
@@ -49,7 +52,12 @@ class RequestModel with RequestModelMappable {
   @MappableField(key: 'destination_long')
   final double destinationLong;
 
-  final String state;
+  @MappableField(key: 'request_date')
+  final String date;
+
+  final HospitalModel? hospital;
+
+  final String status;
 
   final String? note;
 }

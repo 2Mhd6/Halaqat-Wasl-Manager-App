@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:halaqat_wasl_manager_app/repo/requests/requests_repository.dart';
 import 'package:halaqat_wasl_manager_app/shared/widgets/base_history_screen.dart';
 import 'package:halaqat_wasl_manager_app/ui/request_history/bloc/request_history_bloc.dart';
 
@@ -9,7 +10,9 @@ class RequestHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RequestHistoryBloc()..add(RequestHistoryLoadEvent()),
+      create: (context) => RequestHistoryBloc(
+        requestsRepository: context.read<RequestsRepository>(),
+      )..add(RequestHistoryLoadEvent()),
       child: Builder(
         builder: (context) {
           return BlocBuilder<RequestHistoryBloc, RequestHistoryState>(
@@ -31,6 +34,16 @@ class RequestHistoryScreen extends StatelessWidget {
                 onDaySelected: (index) => context
                     .read<RequestHistoryBloc>()
                     .add(RequestHistoryLoadEvent(selectedIndex: index)),
+                itemBuilder: (BuildContext context, int index) {
+                  final request =
+                      (state as RequestHistoryDataState).requests[index];
+                  return HistoryItem(
+                    title: request.requestId.toString(),
+                    state: request.status == 'pending',
+                    date: request.date!,
+                    hospital: request.hospital!.name,
+                  );
+                },
               );
             },
           );
@@ -39,3 +52,5 @@ class RequestHistoryScreen extends StatelessWidget {
     );
   }
 }
+
+

@@ -12,6 +12,7 @@ class BaseHistoryScreen extends StatelessWidget {
     this.requests = const [],
     required this.isLoading,
     this.onDaySelected,
+    required this.itemBuilder,
   });
   final String title; // Screen title
 
@@ -21,14 +22,15 @@ class BaseHistoryScreen extends StatelessWidget {
 
   final bool isLoading; // Indicates if data is loading
 
-  final Function(int index)? onDaySelected; // Callback when a different day is selected
+  final Function(int index)?
+  onDaySelected; // Callback when a different day is selected
 
+  final NullableIndexedWidgetBuilder itemBuilder;
   @override
   Widget build(BuildContext context) {
     final days = [7, 14, 30, 60, 90];
-    return SizedBox(
-      height: 782,
-      width: 722,
+    return AspectRatio(
+      aspectRatio: 1.0,
       child: Material(
         color: Color(0xffF9FAFC),
         borderRadius: BorderRadius.circular(16.0),
@@ -109,74 +111,90 @@ class BaseHistoryScreen extends StatelessWidget {
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 312 / 125,
+                          childAspectRatio: 312 / 150,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                         ),
                         itemCount: requests.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.all(8.0),
-                            padding: const EdgeInsets.all(16.0),
-
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                              // Top row: Request number + status
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Request #${index + 1}',
-                                      style: AppTextStyle.sfPro60020,
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0,
-                                        vertical: 4.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffDCFCE6),
-                                        borderRadius: BorderRadius.circular(
-                                          8.0,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Copmleted',
-                                        style: AppTextStyle.sfPro60014.copyWith(
-                                          color: Color(0xff16803C),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                Gap.gapH8,
-                                // Request description
-                                Text(
-                                  'Request Details for Request #${index + 1}',
-                                  style: AppTextStyle.sfPro60014.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Gap.gapH8,
-                                // Request date (dummy date)
-                                Text(
-                                  'Date: ${DateTime.now().subtract(Duration(days: index + 1)).toLocal().toIso8601String().split('T')[0]}',
-                                  style: AppTextStyle.sfPro60014.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                        itemBuilder: itemBuilder,
                       ),
                     ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HistoryItem extends StatelessWidget {
+  const HistoryItem({
+    super.key,
+    required this.title,
+    required this.state,
+    required this.date,
+    required this.hospital,
+  });
+
+  final String title;
+
+  final bool state;
+
+  final String date;
+  final String hospital;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Top row: Request number + status
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: AppTextStyle.sfPro60020,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 4.0,
+                ),
+                decoration: BoxDecoration(
+                  color: Color(0xffDCFCE6),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  'Copmleted',
+                  style: AppTextStyle.sfPro60014.copyWith(
+                    color: Color(0xff16803C),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          Gap.gapH8,
+          // Request description
+          Text(
+            date,
+            style: AppTextStyle.sfPro60014.copyWith(color: Colors.grey),
+          ),
+          Gap.gapH8,
+          // Request date (dummy date)
+          Text(
+            hospital,
+            style: AppTextStyle.sfPro60014.copyWith(color: Colors.grey),
+          ),
+        ],
       ),
     );
   }
