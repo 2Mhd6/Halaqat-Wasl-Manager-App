@@ -13,6 +13,11 @@ class ComplaintModelMapper extends ClassMapperBase<ComplaintModel> {
   static ComplaintModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ComplaintModelMapper._());
+      UserModelMapper.ensureInitialized();
+      CharityModelMapper.ensureInitialized();
+      RequestModelMapper.ensureInitialized();
+      DriverModelMapper.ensureInitialized();
+      HospitalModelMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -47,6 +52,21 @@ class ComplaintModelMapper extends ClassMapperBase<ComplaintModel> {
   static bool _$isActive(ComplaintModel v) => v.isActive;
   static const Field<ComplaintModel, bool> _f$isActive =
       Field('isActive', _$isActive, key: r'is_active');
+  static UserModel? _$user(ComplaintModel v) => v.user;
+  static const Field<ComplaintModel, UserModel> _f$user =
+      Field('user', _$user, opt: true);
+  static CharityModel? _$charity(ComplaintModel v) => v.charity;
+  static const Field<ComplaintModel, CharityModel> _f$charity =
+      Field('charity', _$charity, opt: true);
+  static RequestModel? _$request(ComplaintModel v) => v.request;
+  static const Field<ComplaintModel, RequestModel> _f$request =
+      Field('request', _$request, opt: true);
+  static DriverModel? _$driver(ComplaintModel v) => v.driver;
+  static const Field<ComplaintModel, DriverModel> _f$driver =
+      Field('driver', _$driver, opt: true);
+  static HospitalModel? _$hospital(ComplaintModel v) => v.hospital;
+  static const Field<ComplaintModel, HospitalModel> _f$hospital =
+      Field('hospital', _$hospital, opt: true);
 
   @override
   final MappableFields<ComplaintModel> fields = const {
@@ -59,6 +79,11 @@ class ComplaintModelMapper extends ClassMapperBase<ComplaintModel> {
     #complaint: _f$complaint,
     #response: _f$response,
     #isActive: _f$isActive,
+    #user: _f$user,
+    #charity: _f$charity,
+    #request: _f$request,
+    #driver: _f$driver,
+    #hospital: _f$hospital,
   };
 
   static ComplaintModel _instantiate(DecodingData data) {
@@ -71,7 +96,12 @@ class ComplaintModelMapper extends ClassMapperBase<ComplaintModel> {
         hospitalId: data.dec(_f$hospitalId),
         complaint: data.dec(_f$complaint),
         response: data.dec(_f$response),
-        isActive: data.dec(_f$isActive));
+        isActive: data.dec(_f$isActive),
+        user: data.dec(_f$user),
+        charity: data.dec(_f$charity),
+        request: data.dec(_f$request),
+        driver: data.dec(_f$driver),
+        hospital: data.dec(_f$hospital));
   }
 
   @override
@@ -128,6 +158,11 @@ extension ComplaintModelValueCopy<$R, $Out>
 
 abstract class ComplaintModelCopyWith<$R, $In extends ComplaintModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  UserModelCopyWith<$R, UserModel, UserModel>? get user;
+  CharityModelCopyWith<$R, CharityModel, CharityModel>? get charity;
+  RequestModelCopyWith<$R, RequestModel, RequestModel>? get request;
+  DriverModelCopyWith<$R, DriverModel, DriverModel>? get driver;
+  HospitalModelCopyWith<$R, HospitalModel, HospitalModel>? get hospital;
   $R call(
       {String? complaintId,
       String? userId,
@@ -137,7 +172,12 @@ abstract class ComplaintModelCopyWith<$R, $In extends ComplaintModel, $Out>
       String? hospitalId,
       String? complaint,
       String? response,
-      bool? isActive});
+      bool? isActive,
+      UserModel? user,
+      CharityModel? charity,
+      RequestModel? request,
+      DriverModel? driver,
+      HospitalModel? hospital});
   ComplaintModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -151,6 +191,21 @@ class _ComplaintModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ComplaintModel> $mapper =
       ComplaintModelMapper.ensureInitialized();
   @override
+  UserModelCopyWith<$R, UserModel, UserModel>? get user =>
+      $value.user?.copyWith.$chain((v) => call(user: v));
+  @override
+  CharityModelCopyWith<$R, CharityModel, CharityModel>? get charity =>
+      $value.charity?.copyWith.$chain((v) => call(charity: v));
+  @override
+  RequestModelCopyWith<$R, RequestModel, RequestModel>? get request =>
+      $value.request?.copyWith.$chain((v) => call(request: v));
+  @override
+  DriverModelCopyWith<$R, DriverModel, DriverModel>? get driver =>
+      $value.driver?.copyWith.$chain((v) => call(driver: v));
+  @override
+  HospitalModelCopyWith<$R, HospitalModel, HospitalModel>? get hospital =>
+      $value.hospital?.copyWith.$chain((v) => call(hospital: v));
+  @override
   $R call(
           {String? complaintId,
           Object? userId = $none,
@@ -160,7 +215,12 @@ class _ComplaintModelCopyWithImpl<$R, $Out>
           Object? hospitalId = $none,
           String? complaint,
           String? response,
-          bool? isActive}) =>
+          bool? isActive,
+          Object? user = $none,
+          Object? charity = $none,
+          Object? request = $none,
+          Object? driver = $none,
+          Object? hospital = $none}) =>
       $apply(FieldCopyWithData({
         if (complaintId != null) #complaintId: complaintId,
         if (userId != $none) #userId: userId,
@@ -170,7 +230,12 @@ class _ComplaintModelCopyWithImpl<$R, $Out>
         if (hospitalId != $none) #hospitalId: hospitalId,
         if (complaint != null) #complaint: complaint,
         if (response != null) #response: response,
-        if (isActive != null) #isActive: isActive
+        if (isActive != null) #isActive: isActive,
+        if (user != $none) #user: user,
+        if (charity != $none) #charity: charity,
+        if (request != $none) #request: request,
+        if (driver != $none) #driver: driver,
+        if (hospital != $none) #hospital: hospital
       }));
   @override
   ComplaintModel $make(CopyWithData data) => ComplaintModel(
@@ -182,7 +247,12 @@ class _ComplaintModelCopyWithImpl<$R, $Out>
       hospitalId: data.get(#hospitalId, or: $value.hospitalId),
       complaint: data.get(#complaint, or: $value.complaint),
       response: data.get(#response, or: $value.response),
-      isActive: data.get(#isActive, or: $value.isActive));
+      isActive: data.get(#isActive, or: $value.isActive),
+      user: data.get(#user, or: $value.user),
+      charity: data.get(#charity, or: $value.charity),
+      request: data.get(#request, or: $value.request),
+      driver: data.get(#driver, or: $value.driver),
+      hospital: data.get(#hospital, or: $value.hospital));
 
   @override
   ComplaintModelCopyWith<$R2, ComplaintModel, $Out2> $chain<$R2, $Out2>(

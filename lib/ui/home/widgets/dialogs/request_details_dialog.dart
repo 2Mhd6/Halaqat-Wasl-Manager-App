@@ -1,15 +1,33 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halaqat_wasl_manager_app/extensions/screen_size.dart';
+import 'package:halaqat_wasl_manager_app/model/driver_model/driver_model.dart';
+import 'package:halaqat_wasl_manager_app/model/request_model/request_model.dart';
+import 'package:halaqat_wasl_manager_app/shared/nav.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
+import 'package:halaqat_wasl_manager_app/ui/home/blocs/request_bloc/request_bloc.dart';
 
 class RequestDetailsDialog extends StatelessWidget {
-  const RequestDetailsDialog({super.key});
+  RequestDetailsDialog({
+    super.key,
+    required this.request,
+    required this.availableDrivers,
+    required this.readableAddress,
+    required this.formattedDate,
+  });
+
+  final RequestModel request;
+  final List<DriverModel> availableDrivers;
+  DriverModel? selectedDriver;
+  final String readableAddress;
+  final String formattedDate;
 
   @override
   Widget build(BuildContext context) {
-    String? selectedDriver;
-
+    final requestBloc = context.read<RequestBloc>();
 
     return Dialog(
       child: Container(
@@ -30,33 +48,34 @@ class RequestDetailsDialog extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("#REQ-004", style: AppTextStyle.sfProBold24),
+                      Text(
+                        "#REQ-${request.requestId.substring(0, 5)}",
+                        style: AppTextStyle.sfProBold24,
+                      ),
                       SizedBox(height: 4),
-
-                      Text("submitted 2 Hours ago",style: AppTextStyle.sfProBold14SecondaryColor),
                     ],
                   ),
-                  _buildStatusBox("Pending"),
+                  _buildStatusBox('${request.status[0].toUpperCase() + request.status.substring(1)}'),
                 ],
               ),
 
               const SizedBox(height: 24),
-              const Text("Ashwaq Saud", style: AppTextStyle.sfProBold20),
+              Text(request.user!.fullName, style: AppTextStyle.sfProBold20),
               const SizedBox(height: 24),
 
               // Information request ( Pickup - Destination - Time )
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildLabeledText("Pick up", "Riyadh ,Tuwaiq Academy"),
+                  _buildLabeledText("Pick up", readableAddress),
                   _buildLabeledText(
                     "Destination",
-                    "Riyadh ,(Al Amal) Mental\nHealth Complex",
+                    '${request.hospital?.hospitalName}',
                   ),
-                  _buildLabeledText("Time & Date", "27/10/2026\n10 : 00 AM"),
+                  _buildLabeledText("Time & Date", formattedDate),
                 ],
               ),
 
@@ -72,16 +91,14 @@ class RequestDetailsDialog extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              _buildReadonlyBox(
-                "Patient needs wheelchair assistance. Appointment at cardiology department.",
-              ),
+              _buildReadonlyBox(request.note ?? 'There is no special needs'),
 
               const SizedBox(height: 24),
 
-              DropdownButtonFormField<String>(
+              DropdownButtonFormField<DriverModel>(
                 value: selectedDriver,
                 decoration: InputDecoration(
-                  hintText: ('Select a driver'),
+                  hintText: (availableDrivers.isEmpty ? 'No Driver Available at this date & time' :'Select a driver'),
                   labelStyle: AppTextStyle.sfProMedium14,
                   filled: true,
                   fillColor: const Color(0xFFF1F3F5),
@@ -90,34 +107,53 @@ class RequestDetailsDialog extends StatelessWidget {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                items: ["Ahmed Ali", "Saud Naser", "Waleed Khalid"].map((d) {
+                items: availableDrivers.map((d) {
                   return DropdownMenuItem(
                     value: d,
-                    child: Text(d, style: AppTextStyle.sfProMedium14),
+                    child: Text(d.fullName, style: AppTextStyle.sfProMedium14),
                   );
                 }).toList(),
-                onChanged: (v) {
-                  //   //setState(() => selectedDriver = v);
+                onChanged: (driver) {
+                  selectedDriver = driver;
+                  requestBloc.add(SelectingDriverForRequest());
                 },
               ),
               const SizedBox(height: 32),
 
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryButtonColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              BlocBuilder<RequestBloc, RequestState>(
+                builder: (context, state) {
+
+                  final color = state is SuccessSelectingDriverForRequestState ? AppColors.completedButtonColor : AppColors.primaryAppColor;
+                  final text = state is SuccessSelectingDriverForRequestState ? 'Let ${selectedDriver?.fullName.split(' ')[0]} take the ride' : 'Accept Request';
+                  return SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton(
+                      onPressed: selectedDriver == null
+                          ? null
+                          : () {
+                              requestBloc.add(
+                                AssigningRequestToDriverEvent(
+                                  request: request,
+                                  driver: selectedDriver!,
+                                ),
+                              );
+
+                              context.pop();
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: color,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        text,
+                        style: AppTextStyle.sfProBold20,
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    "Accept Request",
-                    style: AppTextStyle.sfProBold20,
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),
@@ -146,12 +182,14 @@ class RequestDetailsDialog extends StatelessWidget {
   //Displays title + content
   Widget _buildLabeledText(String label, String value) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: AppTextStyle.sfProBold14),
         const SizedBox(height: 4),
         Text(
           value,
+          textAlign: TextAlign.start,
           style: AppTextStyle.sfPro60012TernaryColor,
           maxLines: 2,
         ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:halaqat_wasl_manager_app/extensions/screen_size.dart';
@@ -8,13 +10,15 @@ import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 
 class RequestChip extends StatelessWidget {
-  const RequestChip({super.key, this.request, required this.onPressed});
+  const RequestChip({super.key, required this.request, required this.onPressed});
 
-  final RequestModel? request;
+  final RequestModel request;
   final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
+
+    log('${request.user}');
     return Column(
       children: [
         Row(
@@ -23,15 +27,15 @@ class RequestChip extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Ashwaq Saud', style: AppTextStyle.sfPro60020),
-                Text(
-                  '27/10/2027 - 10:00 Am',
-                  style: AppTextStyle.sfProBold14SecondaryColor,
-                ),
-                Text(
-                  'Alnrjsh → King Fahad Hospital',
-                  style: AppTextStyle.sfProBold14SecondaryColor,
-                ),
+                Text(request.user?.fullName ?? 'Unknown', style: AppTextStyle.sfPro60020),
+                // Text(
+                //   '27/10/2027 - 10:00 Am',
+                //   style: AppTextStyle.sfProBold14SecondaryColor,
+                // ),
+                // Text(
+                //   'Alnrjsh → King Fahad Hospital',
+                //   style: AppTextStyle.sfProBold14SecondaryColor,
+                // ),
               ],
             ),
 
@@ -63,10 +67,10 @@ class RequestChip extends StatelessWidget {
           onPressed: onPressed,
         ),
         
-        if (request?.state == 'pending')
+        if (request.status == 'pending')
         Gap.gapH16,
 
-        Divider(color: AppColors.secondaryColor, thickness: 2, height: 20,)
+        
       ],
     );
   }

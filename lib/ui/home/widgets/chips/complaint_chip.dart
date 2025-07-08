@@ -8,13 +8,13 @@ import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 
 class ComplaintChip extends StatelessWidget {
-  const ComplaintChip({super.key, this.complaint, required this.onPressed});
+  const ComplaintChip({super.key, required this.complaint, required this.onPressed});
 
-  final ComplaintModel? complaint;
+  final ComplaintModel complaint;
   final void Function()? onPressed;
   
   ({String text, Color backgroundColor, Color foregroundColor}) get status{
-    switch (complaint?.isActive) {
+    switch (complaint.isActive) {
       case true:
         return (text: 'home_screen.response',backgroundColor: AppColors.completedBackgroundColor, foregroundColor: AppColors.completedForegroundColor);
         
@@ -26,6 +26,7 @@ class ComplaintChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,8 +34,8 @@ class ComplaintChip extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Osama Khaild', style: AppTextStyle.sfPro60020),
-                Text('2 Hours ago',style: AppTextStyle.sfProBold14SecondaryColor,),
+                Text(complaint.user!.fullName, style: AppTextStyle.sfPro60020),
+                
               ],
             ),
 
@@ -46,7 +47,7 @@ class ComplaintChip extends StatelessWidget {
                 color: AppColors.pendingBackgroundColor,
               ),
               child: Text(
-                tr('home_screen.pending'),
+                complaint.isActive ? 'Active' : 'Inactive',
                 style: AppTextStyle.sfPro60014.copyWith(
                   color: AppColors.pendingForegroundColor,
                 ),
@@ -57,11 +58,11 @@ class ComplaintChip extends StatelessWidget {
 
         Gap.gapH16,
         
-        Text("Driver was 30 minutes late and didn't call to inform about the delay. Very unprofessional service.", style: AppTextStyle.sfProBold14SecondaryColor),
+        Text(complaint.complaint, style: AppTextStyle.sfProBold14SecondaryColor),
 
         Gap.gapH16,
 
-        if (complaint?.isActive ?? true)
+        if (complaint.isActive)
           AppCustomButton(
             label: tr('home_screen.response_complaint'),
             buttonColor: AppColors.responseButtonColor,

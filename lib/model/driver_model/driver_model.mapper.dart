@@ -13,6 +13,7 @@ class DriverModelMapper extends ClassMapperBase<DriverModel> {
   static DriverModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = DriverModelMapper._());
+      CharityModelMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -39,6 +40,12 @@ class DriverModelMapper extends ClassMapperBase<DriverModel> {
   static int _$totalServices(DriverModel v) => v.totalServices;
   static const Field<DriverModel, int> _f$totalServices =
       Field('totalServices', _$totalServices, key: r'total_services');
+  static String _$phoneNumber(DriverModel v) => v.phoneNumber;
+  static const Field<DriverModel, String> _f$phoneNumber =
+      Field('phoneNumber', _$phoneNumber, key: r'phone_number');
+  static CharityModel? _$charity(DriverModel v) => v.charity;
+  static const Field<DriverModel, CharityModel> _f$charity =
+      Field('charity', _$charity, opt: true);
 
   @override
   final MappableFields<DriverModel> fields = const {
@@ -49,6 +56,8 @@ class DriverModelMapper extends ClassMapperBase<DriverModel> {
     #role: _f$role,
     #status: _f$status,
     #totalServices: _f$totalServices,
+    #phoneNumber: _f$phoneNumber,
+    #charity: _f$charity,
   };
 
   static DriverModel _instantiate(DecodingData data) {
@@ -59,7 +68,9 @@ class DriverModelMapper extends ClassMapperBase<DriverModel> {
         fullName: data.dec(_f$fullName),
         role: data.dec(_f$role),
         status: data.dec(_f$status),
-        totalServices: data.dec(_f$totalServices));
+        totalServices: data.dec(_f$totalServices),
+        phoneNumber: data.dec(_f$phoneNumber),
+        charity: data.dec(_f$charity));
   }
 
   @override
@@ -114,6 +125,7 @@ extension DriverModelValueCopy<$R, $Out>
 
 abstract class DriverModelCopyWith<$R, $In extends DriverModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  CharityModelCopyWith<$R, CharityModel, CharityModel>? get charity;
   $R call(
       {String? driverId,
       String? charityId,
@@ -121,7 +133,9 @@ abstract class DriverModelCopyWith<$R, $In extends DriverModel, $Out>
       String? fullName,
       String? role,
       String? status,
-      int? totalServices});
+      int? totalServices,
+      String? phoneNumber,
+      CharityModel? charity});
   DriverModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -134,6 +148,9 @@ class _DriverModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<DriverModel> $mapper =
       DriverModelMapper.ensureInitialized();
   @override
+  CharityModelCopyWith<$R, CharityModel, CharityModel>? get charity =>
+      $value.charity?.copyWith.$chain((v) => call(charity: v));
+  @override
   $R call(
           {String? driverId,
           String? charityId,
@@ -141,7 +158,9 @@ class _DriverModelCopyWithImpl<$R, $Out>
           String? fullName,
           String? role,
           String? status,
-          int? totalServices}) =>
+          int? totalServices,
+          String? phoneNumber,
+          Object? charity = $none}) =>
       $apply(FieldCopyWithData({
         if (driverId != null) #driverId: driverId,
         if (charityId != null) #charityId: charityId,
@@ -149,7 +168,9 @@ class _DriverModelCopyWithImpl<$R, $Out>
         if (fullName != null) #fullName: fullName,
         if (role != null) #role: role,
         if (status != null) #status: status,
-        if (totalServices != null) #totalServices: totalServices
+        if (totalServices != null) #totalServices: totalServices,
+        if (phoneNumber != null) #phoneNumber: phoneNumber,
+        if (charity != $none) #charity: charity
       }));
   @override
   DriverModel $make(CopyWithData data) => DriverModel(
@@ -159,7 +180,9 @@ class _DriverModelCopyWithImpl<$R, $Out>
       fullName: data.get(#fullName, or: $value.fullName),
       role: data.get(#role, or: $value.role),
       status: data.get(#status, or: $value.status),
-      totalServices: data.get(#totalServices, or: $value.totalServices));
+      totalServices: data.get(#totalServices, or: $value.totalServices),
+      phoneNumber: data.get(#phoneNumber, or: $value.phoneNumber),
+      charity: data.get(#charity, or: $value.charity));
 
   @override
   DriverModelCopyWith<$R2, DriverModel, $Out2> $chain<$R2, $Out2>(

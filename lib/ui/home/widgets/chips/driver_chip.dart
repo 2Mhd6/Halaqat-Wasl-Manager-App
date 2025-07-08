@@ -6,15 +6,15 @@ import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 
 class DriverChip extends StatelessWidget {
-  const DriverChip({super.key, this.driver, required this.onPressed});
+  const DriverChip({super.key, required this.driver, required this.onPressed});
 
-  final DriverModel? driver;
+  final DriverModel driver;
   final void Function()? onPressed;
 
   ({String text, Color backgroundColor, Color foregroundColor}) get status{
-    switch (driver?.status) {
-      case 'pending':
-        return (text: 'home_screen.pending',backgroundColor: AppColors.pendingBackgroundColor, foregroundColor: AppColors.pendingForegroundColor);
+    switch (driver.status) {
+      case 'available':
+        return (text: 'home_screen.available',backgroundColor: AppColors.pendingBackgroundColor, foregroundColor: AppColors.pendingForegroundColor);
 
       case 'on trip':
         return (text: 'home_screen.on_trip',backgroundColor: AppColors.acceptedBackgroundColor, foregroundColor: AppColors.acceptedForegroundColor);
@@ -35,8 +35,8 @@ class DriverChip extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Osman Abdullah', style: AppTextStyle.sfPro60020),
-                 Text('32 rides')
+                FittedBox(child: Text(driver.fullName, style: AppTextStyle.sfPro60020, overflow: TextOverflow.fade,)),
+                 Text('${driver.totalServices} ${driver.totalServices.isEven ? tr('home_screen.rides') : tr('home_screen.ride')}')
                 // Text('${driver?.totalServices} ${driver!.totalServices.isEven ? 'rides' : 'ride'}')
               ],
             ),

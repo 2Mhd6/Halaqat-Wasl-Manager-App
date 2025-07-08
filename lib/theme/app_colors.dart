@@ -5,6 +5,7 @@ class AppColors {
   static const appBackgroundColor = Color.fromRGBO(249, 250, 252, 0.98);
   static const logoutButtonColor = Color(0xffFF0000);
   static const responseButtonColor = Color(0xffDC2625);
+  static const inactiveButtonColor = Color(0xffDC2625);
   static const primaryAppColor = Color(0xff4A6CF7);
   static const secondaryColor = Color.fromRGBO(176, 183, 195, 0.59);
   static const ternaryColor = Color(0xff0031F8);

@@ -12,7 +12,7 @@ class AuthTextFieldWithLabel extends StatelessWidget {
     required this.controller,
     this.isPassword = false,
     this.isShowPassword = false,
-    this.isCharity = false,
+    this.isCharityNumber = false,
     this.onPressedToShowPasswordViability,
     this.onValidate,
   });
@@ -21,7 +21,7 @@ class AuthTextFieldWithLabel extends StatelessWidget {
   final TextEditingController controller;
   final bool isPassword;
   bool isShowPassword;
-  bool isCharity;
+  bool isCharityNumber;
   final void Function()? onPressedToShowPasswordViability;
   final String? Function(String? value)? onValidate;
 
@@ -45,7 +45,7 @@ class AuthTextFieldWithLabel extends StatelessWidget {
             cursorColor: Colors.black54,
             style: TextStyle(fontSize: 16, fontFamily: 'SFPro'),
             obscureText: isPassword ? !isShowPassword : false,
-            keyboardType: isPassword ? TextInputType.visiblePassword : (isCharity ? TextInputType.number : TextInputType.text),
+            keyboardType: isPassword ? TextInputType.visiblePassword : (isCharityNumber ? TextInputType.number : TextInputType.text),
             validator: onValidate,
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
             decoration: InputDecoration(

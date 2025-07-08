@@ -120,6 +120,13 @@ class AppTextStyle {
     color: AppColors.ternaryColor
   );
 
+  static const sfPro60014SecondaryColor = TextStyle(
+    fontFamily: 'SFPro',
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+    color: AppColors.secondaryTextColor,
+  );
+
   static const sfPro60012 = TextStyle(
     fontFamily: 'SFPro',
     fontWeight: FontWeight.w600,

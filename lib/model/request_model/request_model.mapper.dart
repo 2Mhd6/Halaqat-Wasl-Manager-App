@@ -13,6 +13,11 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
   static RequestModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = RequestModelMapper._());
+      UserModelMapper.ensureInitialized();
+      CharityModelMapper.ensureInitialized();
+      DriverModelMapper.ensureInitialized();
+      HospitalModelMapper.ensureInitialized();
+      ComplaintModelMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -50,11 +55,30 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
   static double _$destinationLong(RequestModel v) => v.destinationLong;
   static const Field<RequestModel, double> _f$destinationLong =
       Field('destinationLong', _$destinationLong, key: r'destination_long');
-  static String _$state(RequestModel v) => v.state;
-  static const Field<RequestModel, String> _f$state = Field('state', _$state);
+  static DateTime _$requestDate(RequestModel v) => v.requestDate;
+  static const Field<RequestModel, DateTime> _f$requestDate =
+      Field('requestDate', _$requestDate, key: r'request_date');
+  static String _$status(RequestModel v) => v.status;
+  static const Field<RequestModel, String> _f$status =
+      Field('status', _$status);
   static String? _$note(RequestModel v) => v.note;
   static const Field<RequestModel, String> _f$note =
       Field('note', _$note, opt: true);
+  static UserModel? _$user(RequestModel v) => v.user;
+  static const Field<RequestModel, UserModel> _f$user =
+      Field('user', _$user, opt: true);
+  static CharityModel? _$charity(RequestModel v) => v.charity;
+  static const Field<RequestModel, CharityModel> _f$charity =
+      Field('charity', _$charity, opt: true);
+  static DriverModel? _$driver(RequestModel v) => v.driver;
+  static const Field<RequestModel, DriverModel> _f$driver =
+      Field('driver', _$driver, opt: true);
+  static HospitalModel? _$hospital(RequestModel v) => v.hospital;
+  static const Field<RequestModel, HospitalModel> _f$hospital =
+      Field('hospital', _$hospital, opt: true);
+  static ComplaintModel? _$complaint(RequestModel v) => v.complaint;
+  static const Field<RequestModel, ComplaintModel> _f$complaint =
+      Field('complaint', _$complaint, opt: true);
 
   @override
   final MappableFields<RequestModel> fields = const {
@@ -68,8 +92,14 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
     #pickupLong: _f$pickupLong,
     #destinationLat: _f$destinationLat,
     #destinationLong: _f$destinationLong,
-    #state: _f$state,
+    #requestDate: _f$requestDate,
+    #status: _f$status,
     #note: _f$note,
+    #user: _f$user,
+    #charity: _f$charity,
+    #driver: _f$driver,
+    #hospital: _f$hospital,
+    #complaint: _f$complaint,
   };
 
   static RequestModel _instantiate(DecodingData data) {
@@ -84,8 +114,14 @@ class RequestModelMapper extends ClassMapperBase<RequestModel> {
         pickupLong: data.dec(_f$pickupLong),
         destinationLat: data.dec(_f$destinationLat),
         destinationLong: data.dec(_f$destinationLong),
-        state: data.dec(_f$state),
-        note: data.dec(_f$note));
+        requestDate: data.dec(_f$requestDate),
+        status: data.dec(_f$status),
+        note: data.dec(_f$note),
+        user: data.dec(_f$user),
+        charity: data.dec(_f$charity),
+        driver: data.dec(_f$driver),
+        hospital: data.dec(_f$hospital),
+        complaint: data.dec(_f$complaint));
   }
 
   @override
@@ -141,6 +177,11 @@ extension RequestModelValueCopy<$R, $Out>
 
 abstract class RequestModelCopyWith<$R, $In extends RequestModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  UserModelCopyWith<$R, UserModel, UserModel>? get user;
+  CharityModelCopyWith<$R, CharityModel, CharityModel>? get charity;
+  DriverModelCopyWith<$R, DriverModel, DriverModel>? get driver;
+  HospitalModelCopyWith<$R, HospitalModel, HospitalModel>? get hospital;
+  ComplaintModelCopyWith<$R, ComplaintModel, ComplaintModel>? get complaint;
   $R call(
       {String? requestId,
       String? userId,
@@ -152,8 +193,14 @@ abstract class RequestModelCopyWith<$R, $In extends RequestModel, $Out>
       double? pickupLong,
       double? destinationLat,
       double? destinationLong,
-      String? state,
-      String? note});
+      DateTime? requestDate,
+      String? status,
+      String? note,
+      UserModel? user,
+      CharityModel? charity,
+      DriverModel? driver,
+      HospitalModel? hospital,
+      ComplaintModel? complaint});
   RequestModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -166,6 +213,21 @@ class _RequestModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<RequestModel> $mapper =
       RequestModelMapper.ensureInitialized();
   @override
+  UserModelCopyWith<$R, UserModel, UserModel>? get user =>
+      $value.user?.copyWith.$chain((v) => call(user: v));
+  @override
+  CharityModelCopyWith<$R, CharityModel, CharityModel>? get charity =>
+      $value.charity?.copyWith.$chain((v) => call(charity: v));
+  @override
+  DriverModelCopyWith<$R, DriverModel, DriverModel>? get driver =>
+      $value.driver?.copyWith.$chain((v) => call(driver: v));
+  @override
+  HospitalModelCopyWith<$R, HospitalModel, HospitalModel>? get hospital =>
+      $value.hospital?.copyWith.$chain((v) => call(hospital: v));
+  @override
+  ComplaintModelCopyWith<$R, ComplaintModel, ComplaintModel>? get complaint =>
+      $value.complaint?.copyWith.$chain((v) => call(complaint: v));
+  @override
   $R call(
           {String? requestId,
           String? userId,
@@ -177,8 +239,14 @@ class _RequestModelCopyWithImpl<$R, $Out>
           double? pickupLong,
           double? destinationLat,
           double? destinationLong,
-          String? state,
-          Object? note = $none}) =>
+          DateTime? requestDate,
+          String? status,
+          Object? note = $none,
+          Object? user = $none,
+          Object? charity = $none,
+          Object? driver = $none,
+          Object? hospital = $none,
+          Object? complaint = $none}) =>
       $apply(FieldCopyWithData({
         if (requestId != null) #requestId: requestId,
         if (userId != null) #userId: userId,
@@ -190,8 +258,14 @@ class _RequestModelCopyWithImpl<$R, $Out>
         if (pickupLong != null) #pickupLong: pickupLong,
         if (destinationLat != null) #destinationLat: destinationLat,
         if (destinationLong != null) #destinationLong: destinationLong,
-        if (state != null) #state: state,
-        if (note != $none) #note: note
+        if (requestDate != null) #requestDate: requestDate,
+        if (status != null) #status: status,
+        if (note != $none) #note: note,
+        if (user != $none) #user: user,
+        if (charity != $none) #charity: charity,
+        if (driver != $none) #driver: driver,
+        if (hospital != $none) #hospital: hospital,
+        if (complaint != $none) #complaint: complaint
       }));
   @override
   RequestModel $make(CopyWithData data) => RequestModel(
@@ -205,8 +279,14 @@ class _RequestModelCopyWithImpl<$R, $Out>
       pickupLong: data.get(#pickupLong, or: $value.pickupLong),
       destinationLat: data.get(#destinationLat, or: $value.destinationLat),
       destinationLong: data.get(#destinationLong, or: $value.destinationLong),
-      state: data.get(#state, or: $value.state),
-      note: data.get(#note, or: $value.note));
+      requestDate: data.get(#requestDate, or: $value.requestDate),
+      status: data.get(#status, or: $value.status),
+      note: data.get(#note, or: $value.note),
+      user: data.get(#user, or: $value.user),
+      charity: data.get(#charity, or: $value.charity),
+      driver: data.get(#driver, or: $value.driver),
+      hospital: data.get(#hospital, or: $value.hospital),
+      complaint: data.get(#complaint, or: $value.complaint));
 
   @override
   RequestModelCopyWith<$R2, RequestModel, $Out2> $chain<$R2, $Out2>(

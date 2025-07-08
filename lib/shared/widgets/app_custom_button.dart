@@ -9,6 +9,7 @@ class AppCustomButton extends StatelessWidget {
     required this.width,
     required this.height,
     required this.onPressed,
+    this.isDriverInfoChip = false
   });
 
   final String label;
@@ -16,6 +17,7 @@ class AppCustomButton extends StatelessWidget {
   final double height;
   final Color buttonColor;
   final void Function()? onPressed;
+  final bool isDriverInfoChip;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -24,7 +26,7 @@ class AppCustomButton extends StatelessWidget {
         fixedSize: Size(width, height),
         backgroundColor: buttonColor,
       ),
-      child: Text(label, style: AppTextStyle.sfProBold20),
+      child: Text(label, style: isDriverInfoChip ? AppTextStyle.sfPro60016 : AppTextStyle.sfProBold24),
     );
   }
 }
