@@ -1,31 +1,32 @@
 import 'dart:developer';
-
+import 'package:get_it/get_it.dart';
+import 'package:halaqat_wasl_manager_app/data/supabase_data.dart';
 import 'package:halaqat_wasl_manager_app/model/charity_model/charity_model.dart';
 import 'package:halaqat_wasl_manager_app/model/complaint_model/complaint_model.dart';
 import 'package:halaqat_wasl_manager_app/model/driver_model/driver_model.dart';
 import 'package:halaqat_wasl_manager_app/model/hospital_model/hospital_model.dart';
 import 'package:halaqat_wasl_manager_app/model/request_model/request_model.dart';
 import 'package:halaqat_wasl_manager_app/model/user_model/user_model.dart';
-import 'package:halaqat_wasl_manager_app/shared/set_up.dart';
 
 class CharityComplaintsRepo {
 
-  static final _charityComplaintsSupabase = SetupSupabase.sharedSupabase;
+  static final _charityComplaintsSupabase = GetIt.I.get<SupabaseData>().supabase;
 
   static Future<List<ComplaintModel>> gettingAllComplaints() async{
 
-    final charityId = _charityComplaintsSupabase.client.auth.currentUser!.id;
+    final charityId = _charityComplaintsSupabase.auth.currentUser!.id;
 
     try{
 
       // This query will returns all the complaints that assign to a request that has specific charity number
-      final complaintsQuery = await _charityComplaintsSupabase.client.from('complaint').select('*, users(*), requests(*), charity(*), driver(*), hospital(*)').eq('requests.charity_id', charityId);
+      final complaintsQuery = await _charityComplaintsSupabase.from('complaint').select('*, users(*), requests(*), charity(*), driver(*), hospital(*)').eq('requests.charity_id', charityId);
 
-      log('$complaintsQuery');
+      // log('$complaintsQuery');
+
       final allComplaints = complaintsQuery.map((complaint) {
         
-        final requests = complaint['requests'] as List<dynamic>? ?? [];
-        final request = requests.isNotEmpty ? RequestModelMapper.fromMap(requests.first as Map<String, dynamic>) : null;
+        final complaints = complaint['requests'] as List<dynamic>? ?? [];
+        final request = complaints.isNotEmpty ? RequestModelMapper.fromMap(complaints.first as Map<String, dynamic>) : null;
         return ComplaintModel(
           complaintId: complaint['complaint_id'],
           userId: complaint['user_id'],
@@ -52,13 +53,25 @@ class CharityComplaintsRepo {
     }
   }
 
+  static Future<ComplaintModel> getComplaintByComplaintId({required String complaintId}) async {
+    try{
+      
+      final complaint = await _charityComplaintsSupabase.from('complaint').select().eq('complaint_id', complaintId);
+
+      return complaint.map((complaint) => ComplaintModelMapper.fromMap(complaint)).toList()[0];
+
+    }catch(error){
+      throw error.toString();
+    }
+  }
+
   static Future<void> responseToUser({required String response,required String complaintId}) async{
     try{
-      await _charityComplaintsSupabase.client.from('complaint').update(
+      await _charityComplaintsSupabase.from('complaint').update(
         {'is_active': false, 'response': response}
       ).eq('complaint_id', complaintId);
     }catch(error){
-
+      throw error.toString();
     }
   }
 }

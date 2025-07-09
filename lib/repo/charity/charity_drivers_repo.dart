@@ -1,13 +1,13 @@
 import 'dart:developer';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:halaqat_wasl_manager_app/data/charity_data.dart';
+import 'package:halaqat_wasl_manager_app/data/driver_data.dart';
+import 'package:halaqat_wasl_manager_app/data/supabase_data.dart';
 import 'package:halaqat_wasl_manager_app/model/driver_model/driver_model.dart';
-import 'package:halaqat_wasl_manager_app/shared/set_up.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CharityDriversRepo {
-  static final _charityDriversSupabase = SetupSupabase.sharedSupabase;
+  static final _charityDriversSupabase = GetIt.I.get<SupabaseData>().supabase;
 
   static final _admin = SupabaseClient(
     dotenv.get('supabase_url'),
@@ -87,18 +87,21 @@ class CharityDriversRepo {
 //   }
 
 
-  static Future<List<DriverModel>> getAvailableDrivers(DateTime dateAndTime) async {
+
+static Future<List<DriverModel>> getAvailableDrivers(DateTime dateAndTime) async {
     
-    final charityData = GetIt.I.get<CharityData>();
+    final drivers = GetIt.I.get<DriverData>().drivers;
     final List<DriverModel> availableDrivers = [];
 
-    await Future.wait(charityData.drivers.map((driver) async {
-      final response = await _charityDriversSupabase.client
+    await Future.wait(drivers.map((driver) async {
+      final response = await _charityDriversSupabase
           .from("requests")
           .select("*")
           .eq("status", "accepted")
           .eq("request_date", dateAndTime)
           .eq("driver_id", driver.driverId);
+
+          log('---${response}');
 
       final isAvailable = response.isEmpty;
       if (isAvailable) {
@@ -113,10 +116,10 @@ class CharityDriversRepo {
   static Future<List<DriverModel>> gettingAllDrivers() async {
     //
 
-    final charityId = _charityDriversSupabase.client.auth.currentUser!.id;
+    final charityId = _charityDriversSupabase.auth.currentUser!.id;
 
     try {
-      final driverQuery = await _charityDriversSupabase.client
+      final driverQuery = await _charityDriversSupabase
           .from('driver')
           .select('*,charity(*)')
           .eq('charity_id', charityId);
@@ -132,6 +135,23 @@ class CharityDriversRepo {
         'Getting All Drivers - Something went wrong while getting all Drivers',
       );
       throw error.toString();
+    }
+  }
+
+  static Future<DriverModel> getDriverByDriverId({required String driverId}) async {
+    try{
+
+      final driver =  await _charityDriversSupabase.from('driver').select().eq('driver_id', driverId);
+
+      log('Getting driver by driver id - Everting goes as we wanted');
+
+      return driver.map((driver) => DriverModelMapper.fromMap(driver)).toList()[0];
+
+    }catch(error){
+
+      log('Getting driver by driver id - Something went wrong while getting request by driver id');
+      throw error.toString();
+
     }
   }
 
@@ -164,7 +184,7 @@ class CharityDriversRepo {
       // -- Why I am doing this to insert the driver manually instead of using driver to map?
       // -- Because  inside driver model there is a nested charity model that used only for reading not for inserting
       // -- So, to avoid errors you need to inserting them manually
-      await _charityDriversSupabase.client.from('driver').insert({
+      await _charityDriversSupabase.from('driver').insert({
         'driver_id': driver.driverId,
         'charity_id': driver.charityId,
         'notification_id': driver.notificationId,

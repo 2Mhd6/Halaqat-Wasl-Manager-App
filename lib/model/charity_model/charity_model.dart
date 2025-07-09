@@ -37,7 +37,7 @@ class CharityModel with CharityModelMappable {
   final double? charityLong;
 
   @MappableField(key: 'total_services')
-  final int? totalServices;
+  int? totalServices;
 
 
 }

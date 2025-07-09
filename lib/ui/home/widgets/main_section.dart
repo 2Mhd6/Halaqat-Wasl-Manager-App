@@ -6,13 +6,10 @@ import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 
 
 class MainSection extends StatelessWidget {
-  const MainSection({super.key, required this.headerLabel, required this.viewAllLabel, required this.onPressedViewAll, required this.emptyWidget,  this.children});
+  const MainSection({super.key, required this.headerLabel, required this.children});
 
   final String headerLabel;
-  final String viewAllLabel;
-  final Widget emptyWidget;
-  final void Function()? onPressedViewAll;
-  final List<Widget>? children;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +21,6 @@ class MainSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(tr(headerLabel), style: AppTextStyle.sfProBold32),
-
-              SizedBox(
-                height: context.getHeight(multiplied: 0.035),
-                child: Column(
-                  children: [
-                    Spacer(),
-                    InkWell(
-                      onTap: onPressedViewAll,
-                      child: Text(tr(viewAllLabel),style: AppTextStyle.sfProBold14ViewAll,),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
@@ -52,7 +36,7 @@ class MainSection extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             child: Column(
-              children: children ?? [emptyWidget]
+              children: children
             ),
           ),
         ),

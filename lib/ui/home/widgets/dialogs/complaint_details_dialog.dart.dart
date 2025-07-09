@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halaqat_wasl_manager_app/extensions/screen_size.dart';
 import 'package:halaqat_wasl_manager_app/model/complaint_model/complaint_model.dart';
+import 'package:halaqat_wasl_manager_app/shared/nav.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 import 'package:halaqat_wasl_manager_app/ui/home/blocs/complaint_bloc/complaint_bloc.dart';
@@ -123,6 +124,10 @@ class ComplaintDetailsDialog extends StatelessWidget {
                                     complaint: complaint,
                                   ),
                                 );
+
+                                
+
+                                context.pop();
                               }
                             : null,
                         //The button is automatically disabled if the status is not responding

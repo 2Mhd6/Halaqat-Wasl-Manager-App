@@ -63,7 +63,7 @@ class SignUpScreen extends StatelessWidget {
             
                         Container(
                           width: context.getWidth(multiplied: 1),
-                          height: context.getHeight(multiplied: 0.72),
+                          height: context.getHeight(multiplied: 0.78),
                           padding: EdgeInsets.all(32),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -142,6 +142,18 @@ class SignUpScreen extends StatelessWidget {
                                     await Future.delayed(Duration(seconds: 1));
                                   }
                                   // After Checking go to Auth Gate screen and then to Home screen
+                                },
+                              ),
+
+                              Gap.gapH24,
+
+                              AppCustomButton(
+                                label: tr('sign_up_screen.login'),
+                                buttonColor: AppColors.secondaryColor,
+                                width: context.getWidth(),
+                                height: context.getHeight(multiplied: 0.05),
+                                onPressed: () {
+                                  context.moveToWithReplacement(context: context, screen: AuthGateScreen(whereYouWantToGo: 'log_in',));
                                 },
                               ),
                             ],

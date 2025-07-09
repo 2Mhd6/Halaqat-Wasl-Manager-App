@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:halaqat_wasl_manager_app/shared/set_up.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_theme.dart';
 import 'package:halaqat_wasl_manager_app/ui/auth/auth_gate_screen.dart';
+import 'package:halaqat_wasl_manager_app/ui/not_allow_phones.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,14 +22,10 @@ void main() async {
   await SetupSupabase.setUpSupabase();
   await EasyLocalization.ensureInitialized();
 
-  await InjectionContainer.setUp();
+  InjectionContainer.setUp();
 
-  await GetIt.I.allReady();
+  GetIt.I.allReady();
 
-  // -- FOR TESTING PURPOSE
-  // RequestsRepo.gettingAllComplaints();
-  // CharityDriversRepo.gettingAllComplaints();
-  // CharityComplaintsRepo.gettingAllComplaints();
 
   runApp(
     EasyLocalization(
@@ -52,7 +49,15 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: AuthGateScreen(),
+      home: LayoutBuilder(
+        builder: (context, constraints) {
+          if(constraints.maxWidth < 980){
+            return NotAllowPhones();
+          }else{
+            return AuthGateScreen();
+          }
+        },
+      )
     );
   }
 }

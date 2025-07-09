@@ -10,7 +10,6 @@ import 'package:halaqat_wasl_manager_app/shared/widgets/gap.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 import 'package:halaqat_wasl_manager_app/ui/auth/bloc/auth_bloc.dart';
-import 'package:halaqat_wasl_manager_app/ui/auth/sign_up_screen.dart';
 import 'package:halaqat_wasl_manager_app/ui/auth/auth_gate_screen.dart';
 import 'package:halaqat_wasl_manager_app/ui/auth/widgets/auth_text_field_with_label.dart';
 
@@ -54,7 +53,7 @@ class LogInScreen extends StatelessWidget {
 
                         Container(
                           width: context.getWidth(multiplied: 1),
-                          height: context.getHeight(multiplied: 0.6),
+                          height: context.getHeight(multiplied: 0.7),
                           padding: EdgeInsets.all(32),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -96,21 +95,6 @@ class LogInScreen extends StatelessWidget {
                                 },
                               ),
 
-                              Gap.gapH8,
-
-                              SizedBox(
-                                width: context.getWidth(),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      tr('login_screen.forget_password'),
-                                      style:
-                                          AppTextStyle.sfPro60016ForgetPassword,
-                                    ),
-                                  ],
-                                ),
-                              ),
 
                               Spacer(),
 
@@ -126,29 +110,21 @@ class LogInScreen extends StatelessWidget {
                                 },
                               ),
 
-                              Align(
-                                alignment: Alignment.center,
-                                child: InkWell(
-                                  onTap: () => context.moveToWithReplacement(
+                              Gap.gapH24,
+
+                              AppCustomButton(
+                                label: tr('sign_up_screen.sign_up'),
+                                buttonColor: AppColors.secondaryColor,
+                                width: context.getWidth(),
+                                height: context.getHeight(multiplied: 0.05),
+                                onPressed: () {
+                                  context.moveToWithReplacement(
                                     context: context,
-                                    screen: SignUpScreen(),
-                                  ),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: tr(
-                                        'login_screen.dont_have_an_account',
-                                      ),
-                                      style: AppTextStyle.sfPro60020,
-                                      children: [
-                                        TextSpan(
-                                          text: tr('login_screen.sign_up'),
-                                          style: AppTextStyle
-                                              .sfProPrimaryAppColor20012,
-                                        ),
-                                      ],
+                                    screen: AuthGateScreen(
+                                      whereYouWantToGo: 'sign_up',
                                     ),
-                                  ),
-                                ),
+                                  );
+                                },
                               ),
                             ],
                           ),

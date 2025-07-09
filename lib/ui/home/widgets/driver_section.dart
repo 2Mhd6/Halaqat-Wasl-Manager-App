@@ -14,7 +14,6 @@ class DriverSection extends StatelessWidget {
     super.key,
     required this.headerLabel,
     required this.viewAllLabel,
-    required this.onPressedViewAll,
     required this.emptyWidget,
     this.children,
   });
@@ -22,7 +21,7 @@ class DriverSection extends StatelessWidget {
   final String headerLabel;
   final String viewAllLabel;
   final Widget emptyWidget;
-  final void Function()? onPressedViewAll;
+  
   final List<Widget>? children;
 
   @override
@@ -35,25 +34,9 @@ class DriverSection extends StatelessWidget {
         SizedBox(
           width: context.getWidth(multiplied: 0.28),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(tr(headerLabel), style: AppTextStyle.sfProBold32),
-
-              SizedBox(
-                height: context.getHeight(multiplied: 0.035),
-                child: Column(
-                  children: [
-                    Spacer(),
-                    InkWell(
-                      onTap: onPressedViewAll,
-                      child: Text(
-                        tr(viewAllLabel),
-                        style: AppTextStyle.sfProBold14ViewAll,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

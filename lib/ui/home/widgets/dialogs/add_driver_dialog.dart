@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halaqat_wasl_manager_app/extensions/screen_size.dart';
 import 'package:halaqat_wasl_manager_app/helpers/validator.dart';
+import 'package:halaqat_wasl_manager_app/shared/nav.dart';
 import 'package:halaqat_wasl_manager_app/shared/widgets/app_custom_button.dart';
 import 'package:halaqat_wasl_manager_app/shared/widgets/app_snack_bart.dart';
 import 'package:halaqat_wasl_manager_app/shared/widgets/gap.dart';
@@ -13,7 +14,6 @@ import 'package:halaqat_wasl_manager_app/ui/home/widgets/shared/app_custom_textf
 
 class AddDriverDialog extends StatelessWidget {
   const AddDriverDialog({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +72,8 @@ class AddDriverDialog extends StatelessWidget {
                     onPressed: () {
                       if (driverBloc.formKey.currentState!.validate()) {
                         driverBloc.add(AddNewDriverEvent());
+                        context.pop();
+
                       }
                     },
                   ),

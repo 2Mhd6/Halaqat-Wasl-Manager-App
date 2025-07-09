@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:halaqat_wasl_manager_app/extensions/screen_size.dart';
+import 'package:halaqat_wasl_manager_app/helpers/formatted_date.dart';
 import 'package:halaqat_wasl_manager_app/model/request_model/request_model.dart';
 import 'package:halaqat_wasl_manager_app/shared/widgets/app_custom_button.dart';
 import 'package:halaqat_wasl_manager_app/shared/widgets/gap.dart';
@@ -10,7 +9,7 @@ import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 
 class RequestChip extends StatelessWidget {
-  const RequestChip({super.key, required this.request, required this.onPressed});
+  const RequestChip({super.key, required this.request,required this.onPressed});
 
   final RequestModel request;
   final void Function()? onPressed;
@@ -18,24 +17,26 @@ class RequestChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    log('${request.user}');
+
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
+              spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(request.user?.fullName ?? 'Unknown', style: AppTextStyle.sfPro60020),
-                // Text(
-                //   '27/10/2027 - 10:00 Am',
-                //   style: AppTextStyle.sfProBold14SecondaryColor,
-                // ),
-                // Text(
-                //   'Alnrjsh → King Fahad Hospital',
-                //   style: AppTextStyle.sfProBold14SecondaryColor,
-                // ),
+                Text(request.user!.fullName, style: AppTextStyle.sfPro60020),
+
+                Gap.gapH8,
+
+                Text('Pick up: ${request.pickUpReadableAddress}'),
+
+                Text('Destination: ${request.hospital?.hospitalName}'),
+
+                Text(FormattedDate.formattedDataForRequestChip(request.requestDate))
               ],
             ),
 

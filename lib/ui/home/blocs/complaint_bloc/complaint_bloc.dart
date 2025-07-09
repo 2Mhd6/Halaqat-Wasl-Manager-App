@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
-import 'package:halaqat_wasl_manager_app/data/charity_data.dart';
+
+import 'package:halaqat_wasl_manager_app/data/complaint_data.dart';
 import 'package:halaqat_wasl_manager_app/model/complaint_model/complaint_model.dart';
 import 'package:halaqat_wasl_manager_app/repo/charity/charity_complaints_repo.dart';
 import 'package:meta/meta.dart';
@@ -66,16 +67,18 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
 
   FutureOr<void> getComplaints(GettingAllComplaintsEvent event,Emitter<ComplaintState> emit) async {
 
-    final getIt = GetIt.I.get<CharityData>();
+    emit(LoadingState());
+
+    final complaintsData = GetIt.I.get<ComplaintData>();
 
     try {
       final allComplaints = await CharityComplaintsRepo.gettingAllComplaints();
 
       // For show all complaints in the complaints dialog
-      getIt.complaints = allComplaints;
+      complaintsData.complaints = allComplaints;
 
       // For showing all the active complaints in the home screen
-      getIt.activeComplaints = allComplaints
+      complaintsData.activeComplaints = allComplaints
           .where((complaint) => complaint.isActive)
           .toList();
 
@@ -87,16 +90,18 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
 
   FutureOr<void> sendingResponseToUser(SendingResponseToUserEvent event, Emitter<ComplaintState> emit) async{
 
-    final activeComplaints = GetIt.I.get<CharityData>().activeComplaints;
+    emit(LoadingState());
+
+    final activeComplaints = GetIt.I.get<ComplaintData>().activeComplaints;
     final currentComplaint = event.complaint;
     final index = activeComplaints.indexOf(currentComplaint);
-    activeComplaints.removeAt(index);
 
     final response = event.response;
 
     try{
       await CharityComplaintsRepo.responseToUser(response: response, complaintId: currentComplaint.complaintId);
       emit(SuccessSendingResponseToUser());
+      activeComplaints.removeAt(index);
       if(!isClosed) clear();
     }catch(error){
       emit(ErrorState(errorMessage: error.toString()));

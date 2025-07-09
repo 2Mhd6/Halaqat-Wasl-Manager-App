@@ -6,10 +6,9 @@ import 'package:halaqat_wasl_manager_app/theme/app_colors.dart';
 import 'package:halaqat_wasl_manager_app/theme/app_text_style.dart';
 
 class DriverChip extends StatelessWidget {
-  const DriverChip({super.key, required this.driver, required this.onPressed});
+  const DriverChip({super.key, required this.driver});
 
   final DriverModel driver;
-  final void Function()? onPressed;
 
   ({String text, Color backgroundColor, Color foregroundColor}) get status{
     switch (driver.status) {

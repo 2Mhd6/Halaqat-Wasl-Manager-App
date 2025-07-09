@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halaqat_wasl_manager_app/extensions/screen_size.dart';
@@ -15,14 +13,12 @@ class RequestDetailsDialog extends StatelessWidget {
     super.key,
     required this.request,
     required this.availableDrivers,
-    required this.readableAddress,
     required this.formattedDate,
   });
 
   final RequestModel request;
   final List<DriverModel> availableDrivers;
   DriverModel? selectedDriver;
-  final String readableAddress;
   final String formattedDate;
 
   @override
@@ -70,11 +66,8 @@ class RequestDetailsDialog extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildLabeledText("Pick up", readableAddress),
-                  _buildLabeledText(
-                    "Destination",
-                    '${request.hospital?.hospitalName}',
-                  ),
+                  _buildLabeledText("Pick up", request.pickUpReadableAddress),
+                  _buildLabeledText("Destination", '${request.hospital?.hospitalName}',),
                   _buildLabeledText("Time & Date", formattedDate),
                 ],
               ),
@@ -138,7 +131,6 @@ class RequestDetailsDialog extends StatelessWidget {
                                   driver: selectedDriver!,
                                 ),
                               );
-
                               context.pop();
                             },
                       style: ElevatedButton.styleFrom(

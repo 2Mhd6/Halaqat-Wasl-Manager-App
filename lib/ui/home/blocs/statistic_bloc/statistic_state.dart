@@ -5,6 +5,8 @@ sealed class StatisticState {}
 
 final class StatisticInitial extends StatisticState {}
 
+final class LoadingState extends StatisticState{}
+
 final class SuccessState extends StatisticState {
   final String successMessage;
 
